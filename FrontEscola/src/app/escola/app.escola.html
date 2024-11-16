@@ -1,0 +1,18 @@
+<div style="display: flex;">
+<h1>Cursos</h1>
+<button *ngIf="!editando" class="criar" (click)="onNovo()">+</button>
+</div>
+<hr>
+    <p class="usuario">Bem vindo {{usuario}}</p>
+<div *ngIf="!novo && !editando">
+    <div class="grid">
+        <div *ngFor="let curso of cursos;">
+            <app-curso-detalhes
+                [curso] = curso
+            ></app-curso-detalhes>
+        </div>
+    </div>
+</div>
+<div>
+    <router-outlet></router-outlet>
+</div>

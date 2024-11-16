@@ -1,0 +1,22 @@
+<div class="edicao">
+    <h2>Editando: {{curso.nome || ''}}</h2>
+    <button class="cancelar" (click)="cancelar()">X</button>
+</div>
+<table>
+    <thead>
+        <tr class="tr-tabela">
+            <th>Nome</th>
+            <th>Serie</th>
+            <th>Turma</th>
+            <th>Nota</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="tr-tabela" *ngFor="let aluno of curso.alunos">
+            <td>{{aluno.nome}} {{aluno.sobrenome}}</td>
+            <td>{{aluno.serie}}</td>
+            <td>{{aluno.turma}}</td>
+            <td>{{aluno.nota}}</td>
+        </tr>
+    </tbody>
+</table>
