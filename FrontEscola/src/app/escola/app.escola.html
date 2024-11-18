@@ -1,15 +1,14 @@
-<div style="display: flex;">
-<h1>Cursos</h1>
-<button *ngIf="!editando" class="criar" (click)="onNovo()">+</button>
+<div style="display: flex;" class="mb-1">
+    <h1 id="n-printavel">Cursos</h1>
+    <button *ngIf="!editando" class="criar" (click)="onNovo()">+</button>
+    <button *ngIf="relatorios.length > 0" class="cancelar me-1" (click)="cancela()"
+        title="Gerar relatório de cursos">X</button>
 </div>
 <hr>
-    <p class="usuario">Bem vindo {{usuario}}</p>
-<div *ngIf="!novo && !editando">
+<div *ngIf="!novo && !editando && relatorios.length == 0">
     <div class="grid">
         <div *ngFor="let curso of cursos;">
-            <app-curso-detalhes
-                [curso] = curso
-            ></app-curso-detalhes>
+            <app-curso-detalhes [curso]=curso></app-curso-detalhes>
         </div>
     </div>
 </div>

@@ -3,14 +3,17 @@ import { HttpService } from "../services/http.service";
 import { CommonModule } from "@angular/common";
 import { Curso } from "../interfaces/curso.interface";
 import { ActivatedRoute, Router, RouterLink, RouterOutlet } from "@angular/router";
-import { AppCursoDetalhes } from "../curso-detalhes/curso-detalhes";
 import { EventoService } from "../services/evento.service";
-import { EDITANDO, NOVO } from "../constantes";
+import { EDITANDO, NOVO, RELATORIO_GERAL, TOAST } from "../constantes";
+import { AppCursoDetalhes } from "../cursos/curso-detalhes/curso-detalhes";
+import { AppRelatorio } from "../shared/relatorio/relatorios";
+import { AppAutocomplete } from "../shared/autocomplete/autocomplete";
+import { AppToast } from "../shared/toast/toast";
 
 @Component({
     selector: 'app-escola',
     standalone: true,
-    imports: [RouterLink, RouterOutlet, CommonModule, AppCursoDetalhes],
+    imports: [RouterLink, RouterOutlet, CommonModule, AppCursoDetalhes, AppRelatorio, AppAutocomplete, AppToast],
     templateUrl: './app.escola.html',
     styleUrl: './app.escola.css'
 })
@@ -18,9 +21,11 @@ export class AppEscola implements OnInit {
     usuario: string = 'Gabriel';
     curso: Curso = {id: 0, nome: '', alunos: []};
     cursos: Array<Curso> = [];
+    relatorios: Array<any> = [];
     nome: string = '';
     editando = false;
     novo = false;
+    erro = '';
 
     constructor (
         private _httpService: HttpService,
@@ -30,11 +35,14 @@ export class AppEscola implements OnInit {
     ) {}
 
     ngOnInit() {
-        this._httpService.get('Cursos').subscribe(dados => {
-            if (dados.erro !== "")
-                console.log(dados.erro);
-            this.cursos = dados.lista;
-            console.log(this.cursos);;
+        this._httpService.get('Cursos').subscribe({
+            next: (dados) => {
+                this.cursos = dados.lista;
+            },
+            error: (e) => {
+                this.erro = e.error.erro
+                this._cursoService.eventEmitter.emit({nome: TOAST, valor: true});
+            }
         });
         this._cursoService.eventEmitter.subscribe(evento => {
             if (evento.nome === EDITANDO)
@@ -55,5 +63,9 @@ export class AppEscola implements OnInit {
 
     cancelar() {
         this.editando = false;
+    }
+
+    cancela() {
+        this.relatorios = [];
     }
 }

@@ -1,0 +1,27 @@
+<div class="edicao mt-1">
+    <h2>Criar curso</h2>
+    <button class="cancelar" (click)="cancelar()">X</button>
+</div>
+<div>
+    <form [formGroup]="form">
+        <div class="linha">
+            <div class="coluna">
+                <div class="grupo-input">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" name="nome" formControlName="nome" />
+                </div>
+            </div>
+        </div>
+        
+    </form>
+    <div class="linha">
+        <div *ngFor="let aluno of alunos; let i = index">
+            {{aluno.nome}} <button class="cancelar mt-1" (click)="remove(i)">X</button>
+
+        </div>
+    </div>
+    <div class="linha">
+        <button class="criar btn-md" (click)="onSalvar()">Salvar</button>
+    </div>
+</div>
+<app-toast [texto]="erro"></app-toast>

@@ -29,6 +29,10 @@ namespace ApiEscola.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("NomeCompleto")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Serie")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -45,15 +49,14 @@ namespace ApiEscola.Migrations
 
                     b.HasIndex("CursoId");
 
+                    b.HasIndex("NomeCompleto")
+                        .IsUnique();
+
                     b.ToTable("Alunos");
                 });
 
             modelBuilder.Entity("ApiEscola.Models.AlunoCurso", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("AlunosId")
                         .HasColumnType("INTEGER");
 
@@ -63,7 +66,7 @@ namespace ApiEscola.Migrations
                     b.Property<decimal>("Nota")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("AlunosId", "CursosId");
 
                     b.ToTable("AlunoCurso");
                 });
@@ -79,6 +82,9 @@ namespace ApiEscola.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Nome")
+                        .IsUnique();
 
                     b.ToTable("Cursos");
                 });

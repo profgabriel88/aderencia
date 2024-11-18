@@ -1,0 +1,53 @@
+<div style="display: flex;" class="mb-1">
+    <h1>Alunos</h1>
+    <button *ngIf="!editando" class="criar" (click)="onNovo()">+</button>
+</div>
+<hr>
+<div>
+    <router-outlet></router-outlet>
+</div>
+<div style="display: flex;">
+
+    <table *ngIf="!novo && !editando">
+        <thead>
+            <tr class="tr-tabela">
+                <th>Nome</th>
+                <th>Serie</th>
+                <th>Turma</th>
+                <th>Nota</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="tr-tabela tr-hover" *ngFor="let aluno of alunos; let i = index">
+                <td>{{aluno.nome}} {{aluno.sobrenome}}</td>
+                <td>{{aluno.serie}}</td>
+                <td>{{aluno.turma}}</td>
+                <td><button class="criar" (click)="inserirNota(aluno.id)">+</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="m-2">
+        <p class="usuario" *ngIf="cursos.length > 0">Notas de {{alunoSelecionado?.nome}}</p>
+        <div class="flex-w" *ngIf="alunoSelecionado.id != 0">
+            <p class="usuario" *ngIf="semMatriculas">{{alunoSelecionado?.nome}} não está matriculado em nenhum curso</p>
+            <app-autocomplete
+            [url] = '"Cursos"'
+            [nomeExibicao]='"nome"'
+            [nomeEntidade]='"Adiciona curso"'
+            (selecionado)='setOpcao($event)'
+        ></app-autocomplete>
+        </div>
+        <div class="flex-w">
+            <div class="card card-pq mt-1" *ngFor="let curso of cursos">
+                <div>{{curso.nome}} <span *ngIf="curso.nota != null || curso.nota != undefined">| Nota atual:</span> {{curso.nota}}
+                    <div class="grupo-input">
+                        <label for="nota">Nota</label>
+                        <input #nota type="number" id="nota" name="nota" (input)="incluiNota(nota.value, curso.cursosId)" [disabled]="curso.novo"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="mt-1 criar btn-md" *ngIf="cursos.length > 0" (click)="salvarNotas()">Salvar</button>
+        <button class="mt-1 cancelar" *ngIf="cursos.length > 0 || semMatriculas" (click)="cursos = []; semMatriculas = false; alunoSelecionado.id = 0">X</button>
+    </div>
+</div>

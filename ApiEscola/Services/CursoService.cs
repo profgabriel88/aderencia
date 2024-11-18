@@ -2,6 +2,7 @@ using ApiEscola.Data;
 using ApiEscola.DTO;
 using ApiEscola.Interfaces;
 using ApiEscola.Models;
+using EntityFramework.Exceptions.Common;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
@@ -73,10 +74,18 @@ namespace ApiEscola.Services
 
         public async Task<Curso?> InsertCurso(Curso curso)
         {
-            await _apiContext.Cursos.AddAsync(curso);
-            if (await _apiContext.SaveChangesAsync() > 0)
-                return curso;
+            try
+            {
+                await _apiContext.Cursos.AddAsync(curso);
 
+                if (await _apiContext.SaveChangesAsync() > 0)
+                    return curso;
+            }
+
+            catch (UniqueConstraintException e)
+            {
+                throw e;
+            }
             return null;
         }
 
@@ -88,6 +97,28 @@ namespace ApiEscola.Services
                 return 1;
 
             return null;
+        }
+
+        public async Task InsertAlunoCursoVarios(List<AlunoCursoDto> matriculas)
+        {
+            var alunosCurso = new List<AlunoCurso>();
+            foreach(var m in matriculas)
+            {
+                alunosCurso.Add(new AlunoCurso
+                {
+                    AlunosId = m.AlunosId,
+                    CursosId= m.CursosId
+                });
+            }
+            try
+            {
+                _apiContext.AlunoCurso.AddRange(alunosCurso);
+                await _apiContext.SaveChangesAsync();
+            }
+            catch (UniqueConstraintException e)
+            {
+                throw e;
+            }
         }
 
         public async Task EditCurso(Curso curso)

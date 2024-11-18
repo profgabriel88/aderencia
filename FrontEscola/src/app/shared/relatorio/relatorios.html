@@ -1,0 +1,62 @@
+
+<div style="display: flex;" class="mb-1">
+    <h1>Relatórios</h1>
+</div>
+<hr>
+<div>
+    <h2>Filtros</h2>
+    <div class="coluna">
+    <app-autocomplete
+    [url]="'Cursos'"
+    [nomeEntidade]="'Curso'"
+    [nomeExibicao]="'nome'"
+    [apagaBusca]="false"
+    (selecionado)="setSelecionado($event)"
+    ></app-autocomplete>
+        <div class="grupo-input mt-2">
+            <label for="">Série</label>
+            <select name="serie" id="" [(ngModel)]="serie">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+        <div class="grupo-input mt-2">
+            <label for="">Turma</label>
+            <select name="turma" id="" [(ngModel)]="turma">
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+            </select>
+        </div>
+    </div>
+    <button class="cancelar btn-md mt-2" (click)="limpa()"
+    title="Gerar relatório de cursos">Limpa</button>
+    <button class="criar btn-md me-1" (click)="gerarRelatorio()"
+        title="Gerar relatório de cursos">Relatório</button>
+</div>
+
+<div class="w-80">
+    <h2 *ngIf="relatorios.length > 0">Relatório geral de notas por turma</h2>
+    <div *ngFor="let relatorio of relatorios">
+        <h2>{{relatorio.curso}} - {{relatorio.serie}} {{relatorio.turma}}</h2>
+        <table id="conteudo" class="w-100">
+            <thead>
+                <tr class="tr-tabela">
+                    <th>Nome</th>
+                    <th>Nota</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="tr-tabela tr-hover" *ngFor="let aluno of relatorio.alunos">
+                    <td>{{aluno.nome}}</td>
+                    <td class="w-10">{{aluno.nota}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<app-toast 
+    [texto]="erro"
+    ></app-toast>

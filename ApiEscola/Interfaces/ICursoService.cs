@@ -9,6 +9,7 @@ namespace ApiEscola.Interfaces
         Task<CursoDto?> GetCurso(int id);
         Task<Curso?> InsertCurso(Curso curso);
         Task<int?> InsertAlunoCurso(int curso, int aluno);
+        Task InsertAlunoCursoVarios(List<AlunoCursoDto> matriculas);
         Task EditCurso(Curso curso);
         Task DeleteCurso(int id);
 

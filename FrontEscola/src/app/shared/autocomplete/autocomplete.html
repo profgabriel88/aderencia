@@ -1,0 +1,16 @@
+<div class="linha">
+    <div class="coluna f-coluna">
+        <div class="coluna f-linha">
+            <div class="grupo-input">
+                <label for="">{{nomeEntidade}}</label>
+                <input autoCompleteSelection #inputnome type="text" id="nome-aluno" name="nome-aluno" (keyup)="mostraOpcoes()"
+                    [(ngModel)]="busca" />
+                        <div [hidden]="!showSearches" class="search">
+                            <div *ngFor="let opcao of filtrados;" tappable (click)="setOpcao(opcao)" class="resultado">
+                                {{opcao[nomeExibicao]}}
+                            </div>
+                        </div>
+            </div>
+        </div>
+    </div>
+</div>

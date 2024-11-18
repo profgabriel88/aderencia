@@ -1,0 +1,44 @@
+.navbar {
+    background-color: var(--cor-principal);
+}
+
+.nav-lista {
+    list-style: none;
+    li {
+        margin-right: 1rem;
+        
+        .links {
+            color: #ffeedd;
+            text-decoration: none;
+            font-size: 1.5rem;
+            line-height: 3rem;
+        }
+   }
+   li:nth-child(2) {
+        margin-left: 1rem;
+   }
+   a:hover {
+       color: #ffe4ca !important;
+       text-decoration: underline !important;
+   }
+   a.logo:hover {
+       text-decoration: none !important;
+   }
+}
+
+
+.logo {
+    color: #ffeedd;
+    text-decoration: none;
+    font-size: 3rem;
+    line-height: 3rem;
+    padding: 0.5rem;
+    /* margin: 0.25rem; */
+}
+
+@media print {
+    /* All your print styles go here */
+    .navbar {
+      display: none !important;
+    }
+  }

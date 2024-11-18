@@ -1,0 +1,28 @@
+div {
+    position: absolute;
+    top: 20%;
+    left: 80%;
+    background-color: rgba(255, 0, 0, 0.6);
+    padding: 1rem;
+}
+
+.animate {
+    display: block;
+    animation: 1s 1 alternate slide-in;
+}
+
+.esconde {
+    display: none;
+}
+
+@keyframes slide-in {
+    from {
+      translate: 150vw 0;
+      scale: 200% 1;
+    }
+  
+    to {
+      translate: 0 0;
+      scale: 100% 1;
+    }
+  }

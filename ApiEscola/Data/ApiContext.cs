@@ -12,5 +12,11 @@ namespace ApiEscola.Data
         public DbSet <Aluno> Alunos { get; set; }
         public DbSet <Curso> Cursos { get; set; }
         public DbSet <AlunoCurso> AlunoCurso { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AlunoCurso>()
+                .HasKey(ac => new {ac.AlunosId, ac.CursosId});
+        }
     }
 }

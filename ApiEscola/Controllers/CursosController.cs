@@ -1,3 +1,4 @@
+using ApiEscola.DTO;
 using ApiEscola.Interfaces;
 using ApiEscola.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -39,24 +40,17 @@ public class CursosController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Curso([FromBody]Curso curso)
     {
-        if (!ModelState.IsValid)
-            return BadRequest(new {curso, erro = "Todos os campos são obrigatórios."});
-
         Curso? cursoCriado = await _cursoService.InsertCurso(curso);
         if (cursoCriado != null)
             return CreatedAtAction(nameof(Curso), cursoCriado);
-
+        
         return BadRequest(new {curso, erro = "Erro ao cadastrar curso."});
-
     }
 
-    [HttpPost("Matricula")]
-    public async Task<IActionResult> AlunoCurso([FromQuery]int curso, int aluno)
+    [HttpPost("Matriculas")]
+    public async Task<IActionResult> AlunoCursoVarios([FromBody]List<AlunoCursoDto> matriculas)
     {
-        var sucesso = await _cursoService.InsertAlunoCurso(curso, aluno);
-        if (sucesso == 1)
-            return CreatedAtAction(nameof(AlunoCurso), new { msg = "Inserido com sucesso." });
-        
-        return BadRequest(new { erro = "Erro ao cadastrar." });
+        await _cursoService.InsertAlunoCursoVarios(matriculas);
+        return CreatedAtAction(nameof(AlunoCurso), new { msg = "Inserido com sucesso." });
     }
 }
